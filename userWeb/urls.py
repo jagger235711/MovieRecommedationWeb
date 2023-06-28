@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-import userWeb
+from userWeb import views
 
+app_name = "userWeb"
 urlpatterns = [
-    path('', include("userWeb.urls")),
-    path('admin/', admin.site.urls),
+    path('', views.IndexView.as_view(), name="index"),
+    path('movie', views.IndexView.as_view(), name="index"),
+    path('', views.IndexView.as_view(), name="index"),
 ]

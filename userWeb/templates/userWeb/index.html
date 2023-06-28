@@ -1,0 +1,18 @@
+<!-- index.html -->
+{% extends "userWeb/base.html" %}
+
+{% block content %}
+<section>
+    <h2>Featured Content</h2>
+    <p>This is the featured content section of the website.</p>
+</section>
+
+<section>
+    <h2>Latest News</h2>
+    <ul>
+        {% for news_item in latest_news %}
+        <li>{{ news_item.title }}</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

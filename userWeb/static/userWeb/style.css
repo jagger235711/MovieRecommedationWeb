@@ -1,0 +1,12 @@
+li a {
+    color: green;
+    /*font-size: 16px;*/
+}
+
+/*body {*/
+/*    background: white url("images/background.jpg") no-repeat;*/
+/*}*/
+body {
+    background: white url("images/background.jpg") no-repeat;
+    background-size: contain;
+}

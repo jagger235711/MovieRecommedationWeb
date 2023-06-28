@@ -1,0 +1,103 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'userWeb/style.css' %}">
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+
+    <meta name="referrer" content="no-referrer">
+
+
+    <title></title>
+</head>
+
+<body>
+<nav
+        class="navbar sticky-top navbar-nav-scroll shadow-sm  navbar-expand-lg navbar-light bg-light row align-items-center ">
+
+    <a href=" {% url 'movies-home' %}" class="navbar-brand" style="font-weight: bold; font-size: 50px;">RsMovies</a>
+    <button class="navbar-toggler"><span class="navbar-toggler-icon" data-toggle="collapse"
+                                         data-target="#navbarMenu"></span></button>
+    <div class="collapse navbar-collapse" id="navbarMenu" style="font-size: 25px;">
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <form class="form-inline" action="{% url 'movies-search' %}" method="GET">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control form-control-lg" placeholder="电影名称"
+                               aria-label="电影名称"
+                               aria-describedby="basic-addon2" name="movieName">
+                        <input type="text" class="d-none" name="currentUrl" value="{{ request.get_full_path }}">
+                        <button class="btn btn-outline-primary" type="submit">搜索</button>
+                    </div>
+                </form>
+            </li>
+            <li class="nav-item"><a href="{% url 'movies-rec' %}" class="nav-link">推荐列表</a></li>
+            <li class="nav-item"><a href="{% url 'liked-movies' %}" class="nav-link">我喜欢的</a></li>
+
+            {% if user.is_authenticated %}
+
+                {% if user.username == "admin" %}
+
+                    <li class="nav-item"><a href="/admin/" class="nav-link">管理员入口</a>
+                {% endif %}
+
+                <li class="nav-item"><a href="{% url 'movies-friends' %}" class="nav-link">我的好友</a></li>
+                <li class="nav-item"><a href="{% url 'profile' %}" class="nav-link">个人资料</a></li>
+
+                <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link"">注销</a>
+                </li>
+
+            {% else %}
+
+                <li class=" nav-item"><a href="{% url 'register' %}" class="nav-link" ">注册</a>
+                </li>
+
+                <li class=" nav-item"><a href="{% url 'login' %}" class="nav-link" ">登录</a>
+
+            {% endif %}
+            </li>
+        </ul>
+
+    </div>
+
+</nav>
+
+<div class=" container-fluid">
+    <div class="row bg-light" style="height: 30px;"></div>
+</div>
+<div class="top-messages container-fluid">
+    {% if messages %}
+        {% for message in messages %}
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static 'movies/jquery-3.3.1.min.js' %}"></script>
+<!-- <script src=" {% static 'movies/jquery-3.3.1.slim.min.js' %}"></script> -->
+<script src="{% static 'movies/popper.min.js' %}"></script>
+<script src="{% static 'movies/bootstrap.min.js' %}"></script>
+
+{% block JavaScript %}{% endblock %}
+</body>
+
+</html>
