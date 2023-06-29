@@ -1,3 +1,4 @@
+# todo 引入自带的contribAPP做用户登录登出等操作
 from django.views import generic
 
 
@@ -42,6 +43,7 @@ class UserView(generic.ListView):
         """
 
         return
+
 
 class UserView(generic.ListView):
     template_name = "userWeb/users/profile.html"
