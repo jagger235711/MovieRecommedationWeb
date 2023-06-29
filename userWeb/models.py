@@ -29,7 +29,7 @@ class Movie(models.Model):
 
     def __str__(self):
         if self.release_date and self.directors and self.genres:
-            return f'{self.name}------导演：{self.directors}, 类型：{self.genres}, 上映日期：{self.release_date}'
+            return f'{self.name}------导演：{self.directors}, 上映日期：{self.release_date}, 类型：{self.genres}'
 
         else:
             return self.name
@@ -57,3 +57,4 @@ class Profile(models.Model):
 
         else:
             return res
+

@@ -20,9 +20,9 @@
 
 ![img.png](extraStatics/img_2.png)
 
-# TODO
-
-这个实体还要进行修改，电影所属类别属性没加，后面用df——tdf算法通过电影简介挖掘所属类别
+### 用例分析
+1. 用户用例图
+![img.png](img.png)
 
 ### 系统功能结构设计
 ![img_1.png](extraStatics/img_1.png)
