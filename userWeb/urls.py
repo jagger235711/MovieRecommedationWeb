@@ -21,6 +21,6 @@ from userWeb import views
 app_name = "userWeb"
 urlpatterns = [
     path('', views.IndexView.as_view(), name="index"),
-    path('movie', views.IndexView.as_view(), name="index"),
-    path('', views.IndexView.as_view(), name="index"),
+    path('movie', views.MovieView.as_view(), name="movie"),
+    path('user', views.UserView.as_view(), name="user"),
 ]
