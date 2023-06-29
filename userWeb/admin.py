@@ -1,8 +1,7 @@
-
-from .models import Movie,Profile
 from django.contrib import admin
 
 import userWeb
+from .models import Movie, Profile
 
 # Register your models here.
 admin.site.register(Movie)
