@@ -45,19 +45,6 @@ class UserView(generic.ListView):
         return
 
 
-class UserView(generic.ListView):
-    template_name = "userWeb/users/profile.html"
-    context_object_name = "latest_question_list"
-
-    def get_queryset(self):
-        """
-        Return the last five published questions (not including those set to be
-        published in the future).
-        """
-
-        return
-
-
 def logout(request):
     return None
 

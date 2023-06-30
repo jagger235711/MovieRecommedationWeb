@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'userWeb.apps.UserwebConfig',
+    'modelTraining.apps.ModeltrainingConfig',
+    'recommendation.apps.RecommendationConfig',
     'crispy_forms',
     "crispy_bootstrap4",
 ]
