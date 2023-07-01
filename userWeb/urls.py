@@ -13,9 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.urls import path
+
 from userWeb import views as userWeb_views
+
 app_name = "userWeb"
 urlpatterns = [
     path('index/', userWeb_views.IndexView.as_view(), name="index"),
@@ -23,8 +25,13 @@ urlpatterns = [
     path('movie/', userWeb_views.MovieView.as_view(), name="movie"),
     path('user/', userWeb_views.UserView.as_view(), name="user"),
     # 继承自模板
-
+    path('register/', userWeb_views.RegisterView.as_view(), name='register'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    # path('register/', auth_views., name='register'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
+
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
 ]

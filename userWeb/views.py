@@ -1,5 +1,10 @@
 # todo 引入自带的contribAPP做用户登录登出等操作
+from django.contrib.auth import login
+from django.shortcuts import redirect
 from django.views import generic
+from django.views.generic import FormView
+
+from MovieRecommedationWeb import forms
 
 
 # Create your views here.
@@ -53,9 +58,24 @@ def admin(request):
     return None
 
 
-def register(request):
-    return None
+# def register(request):
+#     if request.method == 'POST':
+#         form = forms.RegistrationForm(request.POST)
+#         if form.is_valid():
+#             user = User.objects.create_user(form.save())
+#             return redirect('userWeb:home')
+#     else:
+#         form = forms.RegistrationForm()
+#     return render(request, 'registration/register.html', {'form': form})
+class RegisterView(generic.FormView):
+    template_name = 'registration/register.html'
+    form_class = forms.RegistrationForm
+    success_url = 'userWeb:index'
 
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return super().form_valid(form)
 
-def login(request):
-    return None
+    def form_invalid(self, form):
+        return redirect('userWeb:login')  # 跳转到login页面
