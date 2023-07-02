@@ -35,8 +35,6 @@
                     <a class="nav-link" href="{% url 'userWeb:movie' %}">电影</a>
                 </li>
 
-
-
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'userWeb:user' %}">个人主页</a>
@@ -50,26 +48,21 @@
                         </li>
                     {% endif %}
                 {% else %}
-                    {#                    <li class="nav-item">#}
-                    {#                        <a href="{% url 'userWeb:register' %}" class="nav-link">注册</a>#}
-                    {#                    </li>#}
                     <li class="nav-item">
                         <a href="{% url 'userWeb:login' %}" class="nav-link">登录</a>
                     </li>
                 {% endif %}
 
-                <li class="nav-item">
-                    <form class="form-inline" action="" method="GET">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="电影名称" aria-label="电影名称"
-                                   aria-describedby="basic-addon2" name="movieName">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" type="submit">搜索</button>
-                            </div>
-                        </div>
-                    </form>
-                </li>
             </ul>
+            <form class="form-inline" action="" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="电影名称" aria-label="电影名称"
+                           aria-describedby="basic-addon2" name="movieName">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="submit">搜索</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </nav>
 </header>

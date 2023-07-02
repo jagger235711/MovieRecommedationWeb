@@ -1,9 +1,9 @@
-from django.test import TestCase
-
 # Create your tests here.
-from django.test import TestCase
 from django.contrib.auth.models import User
+from django.test import TestCase, Client
+
 from .models import Movie, Profile
+
 
 class MovieModelTest(TestCase):
     @classmethod
@@ -59,3 +59,34 @@ class ProfileModelTest(TestCase):
         profile.is_first_login = False
         profile.save()
         self.assertEqual(Profile.objects.get(user__username='testuser').is_first_login, False)
+
+    class MyLoginViewTest(TestCase):
+        def setUp(self):
+            self.client = Client()
+
+        def test_form_invalid_with_errors(self):
+            # 创建一个POST请求并传递无效的登录数据
+            response = self.client.post('/login/', {'username': '', 'password': ''}, follow=True)
+
+            # 检查请求的响应状态码是否是200
+            self.assertEqual(response.status_code, 200)
+
+            # 检查模板是否使用了正确的模板名称
+            self.assertTemplateUsed(response, 'userWeb/registration/login.html')
+
+            # 检查模板变量是否包含错误消息
+            self.assertIn('some_message', response.context)
+            self.assertEqual(response.context['some_message'], 'field is required')
+
+        def test_form_invalid_without_errors(self):
+            # 创建一个POST请求并传递有效的登录数据
+            response = self.client.post('/login/', {'username': 'testuser', 'password': 'testpassword'}, follow=True)
+
+            # 检查请求的响应状态码是否是200
+            self.assertEqual(response.status_code, 200)
+
+            # 检查模板是否使用了正确的模板名称
+            self.assertTemplateUsed(response, 'userWeb/registration/login.html')
+
+            # 检查模板变量是否不包含错误消息
+            self.assertNotIn('some_message', response.context)
