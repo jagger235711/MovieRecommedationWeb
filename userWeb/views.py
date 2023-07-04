@@ -1,9 +1,8 @@
 # todo 引入自带的contribAPP做用户登录登出等操作
 
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
+from django.contrib.auth.views import PasswordResetView
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.views import generic
 
 from MovieRecommedationWeb import forms
@@ -50,32 +49,6 @@ class UserView(generic.ListView):
         """
 
         return
-
-
-class MyLogoutView(LogoutView):
-    template_name = 'userWeb/registration/logout.html'
-
-
-class MyLoginView(LoginView):
-    template_name = 'userWeb/registration/login.html'
-    success_url = ''
-
-    # def form_invalid(self, form):
-    #     # 执行登录失败后的额外操作
-    #     # 这里可以记录登录失败日志或显示错误消息等操作
-    #     # ...
-    #
-    #     # # 将表单验证错误信息转换为JSON字符串
-    #     # errors_json = form.errors.as_json()
-    #     #
-    #     # # 解析JSON字符串
-    #     # errors_data = json.loads(errors_json)
-    #     # errors_data = errors_data{all}{code}
-    #     errors_data = form.error_messages
-    #     # 将错误信息传递给模板
-    #     context = self.get_context_data(form=form, some_message=errors_data)
-    #
-    #     return self.render_to_response(context)
 
 
 class MyPasswordResetView(PasswordResetView):
