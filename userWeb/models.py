@@ -57,4 +57,3 @@ class Profile(models.Model):
 
         else:
             return res
-

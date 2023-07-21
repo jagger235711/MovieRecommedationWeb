@@ -1,11 +1,14 @@
 # todo 引入自带的contribAPP做用户登录登出等操作
-
+from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
-from django.shortcuts import redirect
+from django.http import Http404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views import generic
 
-from MovieRecommedationWeb import forms
+from MovieRecommedationWeb import forms as my_forms
+from MovieRecommedationWeb.forms import RegistrationForm
 
 
 # Create your views here.
@@ -38,36 +41,65 @@ class MovieView(generic.ListView):
         return
 
 
-class UserView(generic.ListView):
+class UserView(generic.DetailView):
+    model = User
     template_name = "userWeb/users/profile.html"
-    context_object_name = "latest_question_list"
-
-    def get_queryset(self):
-        """
-        Return the last five published questions (not including those set to be
-        published in the future).
-        """
-
-        return
+    context_object_name = "user"
 
 
 class MyPasswordResetView(PasswordResetView):
     template_name = 'userWeb/registration/password_reset.html'
+    success_url = 'userWeb:login'
+    form_class = my_forms.MyPasswordResetForm
+
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        user_name = form.cleaned_data['user_name']
+
+        try:
+            user = get_object_or_404(User, email=email, username=user_name)
+            self.request.session['reset_password'] = True
+            messages.success(self.request, "修改成功！")
+            return redirect('userWeb:login')  # 跳转到重置密码页面
+        except Http404:
+            messages.error(self.request, '用户不存在，请重新输入。')
+            return redirect('userWeb:password_reset')  # 用户不存在时，重定向回到表单页面并显示错误消息
 
 
 def admin(request):
     return None
 
+    # class RegisterView(generic.FormView):
+    #     template_name = 'userWeb/registration/register.html'
+    #     form_class = forms.RegistrationForm
+    #     success_url = 'userWeb:index'
+    #
+    #     def form_valid(self, form):
+    #         user = form.save()
+    #         login(self.request, user)
+    #         return super().form_valid(form)
+    #
+    #     def form_invalid(self, form):
+    #         return redirect('userWeb:login')  # 跳转到login页面
 
-class RegisterView(generic.FormView):
-    template_name = 'userWeb/registration/register.html'
-    form_class = forms.RegistrationForm
-    success_url = 'userWeb:index'
 
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return super().form_valid(form)
+def register_request(request):
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "注册成功！")
+            return redirect("userWeb:index")
+    else:
+        form = RegistrationForm()
 
-    def form_invalid(self, form):
-        return redirect('userWeb:login')  # 跳转到login页面
+    context = {"register_form": form}
+
+    if form.errors:
+        error_form = RegistrationForm(data=request.POST)
+        context["error_form"] = error_form
+    else:
+        context["message"] = "注册失败！"
+
+    return render(request=request, template_name="userWeb/registration/register.html", context=context)

@@ -3,19 +3,16 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
-    <div class="container ">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header ">
+                    <div class="card-header">
                         <h1 class="text-center">登录</h1>
                     </div>
                     <div class="card-body">
-                        {% if some_message %}
-                            <p>{{ some_message }}</p>
-                        {% endif %}
-                        <form method="POST" action="{% url 'userWeb:login' %}?next={% url 'userWeb:index' %}" novalidate>
+                        <form method="POST" action="{% url 'userWeb:login' %}?next={% url 'userWeb:index' %}"
+                              novalidate>
                             {% csrf_token %}
                             <div class="form-group">
                                 {{ form.username|as_crispy_field }}

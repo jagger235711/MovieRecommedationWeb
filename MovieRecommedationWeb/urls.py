@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.IndexView.as_view()),
     path('admin/', admin.site.urls),
     path('userWeb/', include("userWeb.urls")),
+    path("__debug__/", include("debug_toolbar.urls")),
     # path('recommendation/', include("recommendation.urls")),
     # path('modelTraining/', include("modelTraining.urls")),
 

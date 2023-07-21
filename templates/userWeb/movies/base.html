@@ -37,7 +37,7 @@
 
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'userWeb:user' %}">个人主页</a>
+                        <a class="nav-link" href="{% url 'userWeb:profile-detail' pk=user.pk %}">个人主页</a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'userWeb:logout' %}" class="nav-link">注销</a>
@@ -70,7 +70,7 @@
 <main class="container">
     {% if messages %}
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-6 offset-md-3 text-center">
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                         {{ message }}

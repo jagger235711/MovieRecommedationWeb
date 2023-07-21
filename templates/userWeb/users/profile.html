@@ -1,12 +1,14 @@
 {% extends 'userWeb/movies/base.html' %}
+{% load crispy_forms_filters %}
+
+{% load crispy_forms_tags %}
+
 {% block content %}
-    {% load crispy_forms_tags %}
 
     <div class="container">
         <div style="height: 30px;"></div>
 
         <div class="shadow-lg content-section rounded">
-
             <div class="media">
                 <img src="{{ user.profile.image.url }}" class="rounded-circle account-img">
                 <div class="media-body">
@@ -19,37 +21,23 @@
                 </div>
             </div>
 
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data" class="user-profile-form">
                 {% csrf_token %}
                 <fieldset class="form-group">
-
                     <legend class="border-bottom mb-4">{{ user.username }}的个人资料</legend>
-                    {{ u_form | crispy }}
-                    {{ p_form | crispy }}
-
+{#                    {% for field in user.meta.fields %}#}
+{#                        <div class="form-group">#}
+{#                            <label for="{{ field.name }}">{{ field.verbose_name }}</label>#}
+{#                            <input type="text" id="{{ field.name }}" name="{{ field.name }}" class="form-control"#}
+{#                                   value="{{ field.value_from_object(user) }}" disabled>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
                 </fieldset>
-
                 <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">Update</button>
+                    <button class="btn btn-outline-info" type="submit">更新</button>
                 </div>
             </form>
         </div>
-
-        <!-- <div class="container ">
-        <h2>
-            您喜欢的电影
-        </h2>
-        <ul>
-            {% for movie in user.moviepreference.favorite_movie.all %}
-            <li>
-                <h1>{{movie.name}}</h1>
-            </li>
-            {% endfor %}
-        </ul>
-    </div> -->
-
-
     </div>
-
 
 {% endblock %}
