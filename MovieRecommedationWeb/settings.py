@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -139,3 +139,7 @@ if DEBUG:
 
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
     INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+# if DEBUG:
+#     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+if os.environ.get('ENABLE_DEBUG_TOOLBAR', False):
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
