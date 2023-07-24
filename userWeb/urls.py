@@ -23,7 +23,7 @@ urlpatterns = [
     path('index/', userWeb_views.IndexView.as_view(), name="index"),
     path('admin/', userWeb_views.admin, name='admin'),
     path('movie/', userWeb_views.MovieView.as_view(), name="movie"),
-    path('profile/<int:pk>/', userWeb_views.UserView.as_view(), name='profile-detail'),
+    path('profile/<int:pk>/', userWeb_views.UserProfileView.as_view(), name='profile-detail'),
     # 继承自模板
     path('register/', userWeb_views.register_request, name='register'),
     # path('logout/', userWeb_views.MyLogoutView.as_view(), name='logout'),

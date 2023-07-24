@@ -3,12 +3,14 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
+from django.forms import model_to_dict
 from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import generic
 
 from MovieRecommedationWeb import forms as my_forms
 from MovieRecommedationWeb.forms import RegistrationForm
+from userWeb.models import Profile
 
 
 # Create your views here.
@@ -41,10 +43,27 @@ class MovieView(generic.ListView):
         return
 
 
-class UserView(generic.DetailView):
+class UserProfileView(generic.DetailView):
     model = User
     template_name = "userWeb/users/profile.html"
     context_object_name = "user"
+
+    def get(self, request, *args, **kwargs):
+        user = self.get_object()  # 获取User对象
+        user_values = model_to_dict(user)
+        print(user_values)
+        # profile = Profile.objects.get(user=user)  # 获取关联的Profile对象
+        #
+        # print(profile)
+        exclude_fields = ['password', 'last_login', 'is_superuser', 'groups', 'user_permissions']
+        filtered_user_values = {key: value for key, value in user_values.items() if key not in exclude_fields}
+
+        context = {
+            "user": user,
+            "filtered_user_values": filtered_user_values,
+            # "profile": profile,
+        }
+        return render(request, self.template_name, context)
 
 
 class MyPasswordResetView(PasswordResetView):

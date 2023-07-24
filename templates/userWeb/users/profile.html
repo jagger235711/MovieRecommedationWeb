@@ -12,30 +12,42 @@
             <div class="media">
                 <img src="{{ user.profile.image.url }}" class="rounded-circle account-img">
                 <div class="media-body">
-                    <h2 class="account-heading">
-                        {{ user.username }}
-                    </h2>
-                    <p class="secondary">
-                        {{ user.email }}
-                    </p>
+                    <h2 class="account-heading">{{ user.username }}</h2>
+                    <p class="secondary">{{ user.email }}</p>
                 </div>
             </div>
 
-            <form action="" method="POST" enctype="multipart/form-data" class="user-profile-form">
+            <form action="" method="get" enctype="multipart/form-data" class="user-profile-form">
                 {% csrf_token %}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">{{ user.username }}的个人资料</legend>
-{#                    {% for field in user.meta.fields %}#}
-{#                        <div class="form-group">#}
-{#                            <label for="{{ field.name }}">{{ field.verbose_name }}</label>#}
-{#                            <input type="text" id="{{ field.name }}" name="{{ field.name }}" class="form-control"#}
-{#                                   value="{{ field.value_from_object(user) }}" disabled>#}
-{#                        </div>#}
-{#                    {% endfor %}#}
+                    {% for key, value in filtered_user_values.items %}
+                        <div class="form-group">
+                            <label for="{{ key }}">{{ key|title }}</label>
+                            <input type="text" id="{{ key }}" name="{{ key }}" class="form-control"
+                                   value="{{ value }}" disabled>
+                        </div>
+
+                    {% endfor %}
+                    {#                    {% for field in user.profile._meta.fields %}#}
+                    {#                        {% if field.name not in ['user', 'id'] %}#}
+                    {#                            <div class="form-group">#}
+                    {#                                <label for="{{ field.name }}">{{ field.verbose_name }}</label>#}
+                    {#                                <input type="text" id="{{ field.name }}" name="{{ field.name }}" class="form-control"#}
+                    {#                                       value="{{ field.value_from_object(user.profile) }}" disabled>#}
+                    {#                            </div>#}
+                    {#                        {% endif %}#}
+                    {#                    {% endfor %}#}
+
+                    {#                    {% for k,v in user.items %}#}
+                    {#                        <p>{{ k }}: {{ v }}</p>#}
+                    {#                    {% endfor %}#}
+                    <div class="form-group">
+                        <label>{{ profile }}</label>
+                    </div>
+
+
                 </fieldset>
-                <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">更新</button>
-                </div>
             </form>
         </div>
     </div>
