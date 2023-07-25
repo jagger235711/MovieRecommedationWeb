@@ -1,8 +1,11 @@
 # todo 引入自带的contribAPP做用户登录登出等操作
+
+
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
+from django.db import transaction
 from django.forms import model_to_dict
 from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
@@ -106,19 +109,23 @@ def register_request(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "注册成功！")
-            return redirect("userWeb:index")
+            try:
+                with transaction.atomic():
+                    user = form.save()
+                    user_profile = Profile.objects.create(user=user, is_first_login=1)
+                    login(request, user)
+                    messages.success(request, "注册成功！")
+                    return redirect("userWeb:index")
+            except Exception as e:
+                messages.error(request, str(e))
+
     else:
         form = RegistrationForm()
 
     context = {"register_form": form}
 
     if form.errors:
-        error_form = RegistrationForm(data=request.POST)
-        context["error_form"] = error_form
-    else:
-        context["message"] = "注册失败！"
+        context["error_form"] = form
+        messages.error(request, "注册失败！")
 
     return render(request=request, template_name="userWeb/registration/register.html", context=context)
