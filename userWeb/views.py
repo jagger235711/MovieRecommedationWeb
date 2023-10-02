@@ -110,7 +110,7 @@ def register_request(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             try:
-                with transaction.atomic():
+                with transaction.atomic():  # 保证数据库操作的原子性
                     user = form.save()
                     user_profile = Profile.objects.create(user=user, is_first_login=1)
                     login(request, user)
